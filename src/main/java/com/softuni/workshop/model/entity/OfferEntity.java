@@ -20,7 +20,7 @@ import java.math.BigDecimal;
 @ToString(callSuper = true)
 public class OfferEntity extends BaseExtendedEntity {
 
-    @Column
+    @Column(nullable = false)
     private String description;
 
     @Column(nullable = false)
