@@ -61,6 +61,12 @@ public class UserServiceImpl implements UserService {
             return;
         }
 
+        boolean matchingConfirmedPassword = userRegisterDTO.getPassword().equals(userRegisterDTO.getConfirmPassword());
+        if (!matchingConfirmedPassword) {
+            LOGGER.info("Not matching Passwords!");
+            return;
+        }
+
         UserEntity newUser = new UserEntity()
                 .setIsActive(true)
                 .setFirstName(userRegisterDTO.getFirstName())

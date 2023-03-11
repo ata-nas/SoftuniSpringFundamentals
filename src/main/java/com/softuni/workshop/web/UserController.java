@@ -1,10 +1,11 @@
 package com.softuni.workshop.web;
 
 import com.softuni.workshop.model.entity.dto.UserLoginDTO;
-import com.softuni.workshop.model.entity.dto.UserRegisterDTO;
 import com.softuni.workshop.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,19 +29,14 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String login(UserLoginDTO userLoginDTO) {
+    public String login(
+            @Valid UserLoginDTO userLoginDTO,
+            BindingResult bindingResult
+    ) {
+        if (bindingResult.hasErrors()) {
+            return "redirect:/users/login";
+        }
         userService.login(userLoginDTO);
-        return "redirect:/";
-    }
-
-    @GetMapping("/register")
-    public String register() {
-        return "auth-register";
-    }
-
-    @PostMapping("/register")
-    public String register(UserRegisterDTO userRegisterDTO) {
-        userService.registerAndLogin(userRegisterDTO);
         return "redirect:/";
     }
 
